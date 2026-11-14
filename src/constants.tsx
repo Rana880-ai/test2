@@ -1,5 +1,4 @@
 // src/constants.tsx
-import React from 'react';
 import type { NavItem, ServiceItem, ClientItem } from './types';
 export const COLORS = {
   primary: '#C8202F', // O4U Brand Red
@@ -91,6 +90,6 @@ export const CLIENTS: ClientItem[] = [
 export const CONTACT_INFO = {
   email: 'info@onboarding4u.com',
   phone: '+20 100 393 9499',
-  address: '95 zSheraton Residences, Cairo, Egypt',
+  address: '95 Sheraton Residences, Cairo, Egypt',
   officeHours: 'Sunday - Thursday: 9:00 AM - 6:00 PM (GMT+2)'
 };

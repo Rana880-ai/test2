@@ -788,8 +788,7 @@ export const Audit: React.FC = () => {
     setErrors([]);
     goTo(i);
   };
-
-  const finishSubmit = async () => {
+    const finishSubmit = async () => {
     if (sending) return;
     setSending(true);
     setSendError(null);
@@ -816,6 +815,7 @@ export const Audit: React.FC = () => {
       }
 
       setSubmittedId(id);
+      trackConversion('job_application');
       topRef.current?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
     } catch (err) {
       // TypeError = مشكلة اتصال (السيرفر مش شغال أو النت قاطع)

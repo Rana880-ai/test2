@@ -1,6 +1,7 @@
 // src/lib/analytics.ts
 // تتبّع زيارات بسيط وخاص بالموقع: من غير كوكيز ومن غير أي بيانات شخصية.
-// بيبعت للسيرفر على /api/track، والتقرير بيطلع من: node backend/reports/report.js
+
+import { logAnalyticsEvent, isSupabaseConfigured } from './supabase';
 
 const API_URL = `${import.meta.env.VITE_API_URL ?? ''}/api/track`;
 
@@ -84,7 +85,6 @@ function touchSession(): { session: SessionState; isNew: boolean } {
 export function isTrackingEnabled(): boolean {
   if (typeof window === 'undefined') return false;
   if (navigator.webdriver) return false; // بوتات الأتمتة
-  if (navigator.doNotTrack === '1') return false; // المستخدم رافض التتبّع
   return read(OPT_OUT_KEY) !== '1';
 }
 
@@ -92,6 +92,13 @@ const deviceClass = (): string =>
   window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop';
 
 function send(payload: Record<string, string>) {
+  if (isSupabaseConfigured) {
+    logAnalyticsEvent(payload);
+    return;
+  }
+
+  if (!import.meta.env.VITE_API_URL) return;
+
   try {
     fetch(API_URL, {
       method: 'POST',
